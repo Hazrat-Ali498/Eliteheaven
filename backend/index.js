@@ -1,32 +1,23 @@
-// import mongoose from "mongoose";
+import mongoose from "mongoose";
+import bodyParser from "body-parser";
+import cors from "cors";
+import express from "express";
+import addProductDetails from './Routes/shopproductsdata.js'
+import loginData from './Routes/logindata.js'
 
-// const url = "mongodb+srv://twitter6498:090@cluster0.irrpvd6.mongodb.net/?retryWrites=true&w=majority"
+const app = express();
+const url = "mongodb+srv://hali:fa21090@cluster0.n4moluc.mongodb.net/?retryWrites=true&w=majority"
 
-// mongoose.connect(url)
-// .then(() => console.log("connected to db"))
-// .catch(() => console.log("not connected"));
+mongoose.connect(url,{useNewUrlParser: true, UseUnifiedTopology:true})
+.then(() => console.log("Successfully connected to Data Base"));
+app.listen(5000);
 
-
-
-import http from "http";
-
-const server = http.createServer((req, res) => {
-    
-    if (req.url === "/"){
-        res.write("Loading Home page...");
-        res.end();
-    }
-
-    if (req.url === "/products"){
-        res.write("Loading products page...");
-        res.end();
-    }
-
-    if (req.url === "/services"){
-        res.write("Loading services page...");
-        res.end();
-    }
-    
-});
-
-server.listen(5000);
+app.use(cors());
+app.use(bodyParser.json({extended : true}));
+app.use(bodyParser.urlencoded({extended:true}));
+app.use('/Add_Form', addProductDetails);
+app.use('/View_Form', addProductDetails);
+app.use('/Registration', loginData);
+app.use('/Update_Form', loginData);
+app.use("/Images",express.static("Images"));
+app.use('/Login', loginData);
